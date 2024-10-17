@@ -43,17 +43,30 @@ function App() {
       setTodos(prev => [...prev, newTodo]);
       setAddTodoValue('');
       openNotification({
-        description: 'Задача добавлена успешно!',
-        message: 'Успех!',
+        description: 'New task has been added!',
+        message: 'Success!',
         type: 'success'
       });
     } else {
       openNotification({
-        description: 'Поле не заполнено!',
-        message: 'Внимание!',
+        description: 'The field is empty!',
+        message: 'Warning!',
         type: 'warning'
       });
     }
+  };
+
+  const deleteTodo = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>,
+    id: string
+  ) => {
+    e.stopPropagation();
+    setTodos(prev => prev.filter(todo => todo.value !== id));
+    openNotification({
+      description: 'Todo has been deleted',
+      message: 'Success!',
+      type: 'success'
+    });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -83,15 +96,24 @@ function App() {
               htmlType="submit"
               className="addTodoButton"
             >
-              Добавить
+              Add
             </Button>
           </form>
           <Select
-            size="large"
-            options={todos}
-            placeholder="Выберите задачу"
-            style={{ width: '100%', marginTop: '20px' }}
-          />
+            placeholder="Choose the task..."
+            className="todosList"
+          >
+            {todos.map(todo => (
+              <Select.Option key={todo.value}>
+                <div className="todoItem">
+                  <span className="todoItemText">{todo.label}</span>
+                  <Button onClick={e => deleteTodo(e, todo.value)}>
+                    Delete
+                  </Button>
+                </div>
+              </Select.Option>
+            ))}
+          </Select>
         </div>
       </main>
     </Context.Provider>
