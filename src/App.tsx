@@ -1,123 +1,57 @@
-import './App.css';
-import { Input, Button, notification, Select } from 'antd';
-import { createContext, useMemo, useState } from 'react';
+import './App.scss';
+import { Pagination } from 'antd';
+import { useState, useEffect, FC } from 'react';
+import TodoItem from './components/TodoItem';
+import { TodoForm } from './components/TodoForm';
+import { ITodo } from './types';
 
-interface ITodoOption {
-  value: string;
-  label: string;
-}
-
-interface OpenNotificationParams {
-  message: string;
-  description: string;
-  type: NotificationType;
-}
-
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
-const Context = createContext({ name: 'Default' });
-
-function App() {
-  const [api, contextHolder] = notification.useNotification();
-  const [todos, setTodos] = useState<ITodoOption[]>([]);
+const App: FC = () => {
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [addTodoValue, setAddTodoValue] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const openNotification = ({
-    description,
-    message,
-    type
-  }: OpenNotificationParams) => {
-    api[type]({
-      message,
-      description,
-      placement: 'topRight'
-    });
-  };
-
-  const addTodo = () => {
-    if (addTodoValue.trim()) {
-      const newTodo: ITodoOption = {
-        value: String(Date.now()),
-        label: addTodoValue
-      };
-      setTodos(prev => [...prev, newTodo]);
-      setAddTodoValue('');
-      openNotification({
-        description: 'New task has been added!',
-        message: 'Success!',
-        type: 'success'
-      });
-    } else {
-      openNotification({
-        description: 'The field is empty!',
-        message: 'Warning!',
-        type: 'warning'
-      });
+  useEffect(() => {
+    const totalPages = Math.ceil(todos.length / 5);
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1);
     }
-  };
+  }, [todos, currentPage]);
 
-  const deleteTodo = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    id: string
-  ) => {
-    e.stopPropagation();
-    setTodos(prev => prev.filter(todo => todo.value !== id));
-    openNotification({
-      description: 'Todo has been deleted',
-      message: 'Success!',
-      type: 'success'
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    addTodo();
-  };
-
-  const contextValue = useMemo(() => ({ name: 'Ant Design' }), []);
+  const startIndex = (currentPage - 1) * 5;
+  const paginatedTodos = todos.slice(startIndex, startIndex + 5);
 
   return (
-    <Context.Provider value={contextValue}>
-      {contextHolder}
-      <main className="appWrapper">
-        <div className="appContent">
-          <h1 className="appTitle">todos</h1>
-          <form
-            className="addBlock"
-            onSubmit={handleSubmit}
-          >
-            <Input
-              value={addTodoValue}
-              onChange={e => setAddTodoValue(e.target.value)}
-              placeholder="New todo..."
-              className="addTodoInput"
-            />
-            <Button
-              htmlType="submit"
-              className="addTodoButton"
-            >
-              Add
-            </Button>
-          </form>
-          <Select
-            placeholder="Choose the task..."
-            className="todosList"
-          >
-            {todos.map(todo => (
-              <Select.Option key={todo.value}>
-                <div className="todoItem">
-                  <span className="todoItemText">{todo.label}</span>
-                  <Button onClick={e => deleteTodo(e, todo.value)}>
-                    Delete
-                  </Button>
-                </div>
-              </Select.Option>
+    <main className="appWrapper">
+      <div className="appContent">
+        <h1 className="appTitle">todos</h1>
+        <TodoForm
+          setTodos={setTodos}
+          todos={todos}
+          addTodoValue={addTodoValue}
+          setAddTodoValue={setAddTodoValue}
+        />
+        {!!todos.length && (
+          <div className="todosWrapper">
+            {paginatedTodos.map(todo => (
+              <TodoItem
+                key={todo.id}
+                item={todo}
+                setTodos={setTodos}
+                todos={todos}
+              />
             ))}
-          </Select>
-        </div>
-      </main>
-    </Context.Provider>
+          </div>
+        )}
+        <Pagination
+          current={currentPage}
+          pageSize={5}
+          total={todos.length}
+          onChange={(page: number) => setCurrentPage(page)}
+          className="pagination"
+        />
+      </div>
+    </main>
   );
-}
+};
 
 export default App;
