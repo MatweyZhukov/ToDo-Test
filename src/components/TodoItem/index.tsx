@@ -4,8 +4,8 @@ import { Button, Checkbox } from 'antd';
 import { useTodos } from '../../hooks/useTodos';
 import styles from './TodoItem.module.scss';
 
-const TodoItem: FC<ITodoItem> = ({ item, todos, setTodos }) => {
-  const { toggleTodoCompletion, deleteTodo } = useTodos(todos, setTodos);
+const TodoItem: FC<ITodoItem> = ({ item, setTodos }) => {
+  const { toggleTodoCompletion, deleteTodo } = useTodos(setTodos);
 
   return (
     <div
@@ -16,7 +16,9 @@ const TodoItem: FC<ITodoItem> = ({ item, todos, setTodos }) => {
         checked={item.isDone}
         onChange={() => toggleTodoCompletion(item.id)}
       >
-        {item.value}
+        <span className={item.isDone ? styles.todoText : undefined}>
+          {item.value}
+        </span>
       </Checkbox>
       <Button onClick={() => deleteTodo(item.id)}>Delete</Button>
     </div>

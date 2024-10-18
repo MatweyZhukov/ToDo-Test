@@ -20,3 +20,10 @@
       rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   }
 }
+.todoText {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.5);
+  transition:
+    color 0.3s ease,
+    text-decoration 0.3s ease;
+}

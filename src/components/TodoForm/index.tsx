@@ -5,7 +5,7 @@ import { useTodos } from '../../hooks/useTodos';
 import styles from './TodoForm.module.scss';
 
 const TodoForm: FC<ITodoForm> = params => {
-  const { addTodo } = useTodos(params.todos, params.setTodos);
+  const { addTodo } = useTodos(params.setTodos);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

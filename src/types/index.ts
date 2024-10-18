@@ -18,3 +18,11 @@ export interface ITodoItem {
   todos: ITodo[];
   setTodos: ITodoForm['setTodos'];
 }
+
+export interface FiltersProps {
+  setCurrentFilter: Dispatch<SetStateAction<FiltersType>>;
+  setTodos: Dispatch<SetStateAction<ITodo[]>>;
+  currentFilter: FiltersType;
+}
+
+export type FiltersType = 'all' | 'completed' | 'in-progress';

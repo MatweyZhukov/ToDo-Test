@@ -1,12 +1,15 @@
 .addBlock {
-  display: flex;
+  display: grid;
+  grid-template-columns: 80% 15%;
   align-items: center;
   justify-content: space-between;
-  gap: 50px;
   width: 100%;
+  @media screen and (max-width: 800px) {
+    grid-template-columns: 1fr;
+    row-gap: 15px;
+  }
 }
 .addTodoInput {
-  font-family: var(--font-text);
   height: 50px;
   font-size: 20px;
 }

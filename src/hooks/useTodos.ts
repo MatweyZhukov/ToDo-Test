@@ -1,10 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ITodo } from '../types';
 
-const useTodos = (
-  todos: ITodo[],
-  setTodos: Dispatch<SetStateAction<ITodo[]>>
-) => {
+const useTodos = (setTodos: Dispatch<SetStateAction<ITodo[]>>) => {
   const addTodo = (
     addTodoValue: string,
     setAddTodoValue: Dispatch<SetStateAction<string>>
@@ -40,7 +37,11 @@ const useTodos = (
     );
   };
 
-  return { addTodo, deleteTodo, todos, toggleTodoCompletion };
+  const clearCompletedTodos = () => {
+    setTodos(prev => prev.filter(todo => !todo.isDone));
+  };
+
+  return { addTodo, deleteTodo, toggleTodoCompletion, clearCompletedTodos };
 };
 
 export { useTodos };
