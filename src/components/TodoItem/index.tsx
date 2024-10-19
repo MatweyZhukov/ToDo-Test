@@ -1,10 +1,10 @@
-import { FC } from 'react';
 import { ITodoItem } from '../../types';
 import { Button, Checkbox } from 'antd';
 import { useTodos } from '../../hooks/useTodos';
 import styles from './TodoItem.module.scss';
+import React from 'react';
 
-const TodoItem: FC<ITodoItem> = ({ item, setTodos }) => {
+const TodoItem: React.FC<ITodoItem> = ({ item, setTodos }) => {
   const { toggleTodoCompletion, deleteTodo } = useTodos(setTodos);
 
   return (

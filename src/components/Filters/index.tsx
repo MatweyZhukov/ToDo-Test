@@ -1,10 +1,10 @@
 import { Button } from 'antd';
-import { FC } from 'react';
 import styles from './Filters.module.scss';
 import { FiltersProps, FiltersType } from '../../types';
 import { useTodos } from '../../hooks/useTodos';
+import React from 'react';
 
-const Filters: FC<FiltersProps> = ({
+const Filters: React.FC<FiltersProps> = ({
   setCurrentFilter,
   setTodos,
   currentFilter
@@ -17,6 +17,7 @@ const Filters: FC<FiltersProps> = ({
     <div className={styles.filters}>
       {filterTypes.map(filter => (
         <Button
+          key={filter}
           onClick={() => setCurrentFilter(filter)}
           className={styles.filter}
           type={filter === currentFilter ? 'primary' : undefined}

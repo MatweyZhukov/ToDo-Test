@@ -1,10 +1,10 @@
-import { FC } from 'react';
 import { Button, Input } from 'antd';
 import { ITodoForm } from '../../types';
 import { useTodos } from '../../hooks/useTodos';
 import styles from './TodoForm.module.scss';
+import React from 'react';
 
-const TodoForm: FC<ITodoForm> = params => {
+const TodoForm: React.FC<ITodoForm> = params => {
   const { addTodo } = useTodos(params.setTodos);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

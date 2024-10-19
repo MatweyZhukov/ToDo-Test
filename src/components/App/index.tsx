@@ -1,24 +1,24 @@
 import './App.scss';
+import React from 'react';
 import { Pagination } from 'antd';
-import { useState, useEffect, FC } from 'react';
-import TodoItem from './components/TodoItem';
-import { TodoForm } from './components/TodoForm';
-import { FiltersType, ITodo } from './types';
-import { Filters } from './components/Filters';
+import TodoItem from '../TodoItem';
+import { TodoForm } from '../TodoForm';
+import { FiltersType, ITodo } from '../../types';
+import { Filters } from '../Filters';
 
-const App: FC = () => {
-  const [addTodoValue, setAddTodoValue] = useState<string>('');
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentFilter, setCurrentFilter] = useState<FiltersType>('all');
-  const [todos, setTodos] = useState<ITodo[]>(
+const App: React.FC = () => {
+  const [addTodoValue, setAddTodoValue] = React.useState<string>('');
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [currentFilter, setCurrentFilter] = React.useState<FiltersType>('all');
+  const [todos, setTodos] = React.useState<ITodo[]>(
     JSON.parse(localStorage.getItem('todos') || '[]')
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const totalPages = Math.ceil(todos.length / 5);
     if (currentPage > totalPages) setCurrentPage(totalPages || 1);
   }, [todos, currentPage]);

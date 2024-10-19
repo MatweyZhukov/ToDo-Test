@@ -22,7 +22,10 @@ export default tseslint.config(
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true }
-      ]
+      ],
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'react/jsx-uses-react': 'warn',
+      'react/react-in-jsx-scope': 'warn'
     }
   }
 );
