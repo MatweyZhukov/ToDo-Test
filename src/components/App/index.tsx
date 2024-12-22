@@ -1,75 +1,80 @@
 import './App.scss';
-import React from 'react';
+import { useState, useEffect, FC } from 'react';
 import { Pagination } from 'antd';
 import TodoItem from '../TodoItem';
 import { TodoForm } from '../TodoForm';
 import { FiltersType, ITodo } from '../../types';
-import { Filters } from '../Filters';
+import { TodoFilters } from '../TodoFilters';
 
-const App: React.FC = () => {
-  const [addTodoValue, setAddTodoValue] = React.useState<string>('');
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
-  const [currentFilter, setCurrentFilter] = React.useState<FiltersType>('all');
-  const [todos, setTodos] = React.useState<ITodo[]>(
-    JSON.parse(localStorage.getItem('todos') || '[]')
+const App: FC = () => {
+  const [addTodoValue, setAddTodoValue] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentFilter, setCurrentFilter] = useState<FiltersType>('all');
+  const [todoList, setTodoList] = useState<ITodo[]>(
+    JSON.parse(localStorage.getItem('todoList') || '[]')
   );
 
-  React.useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-  }, [todos]);
+  useEffect(() => {
+    localStorage.setItem('todoList', JSON.stringify(todoList));
+  }, [todoList]);
 
-  React.useEffect(() => {
-    const totalPages = Math.ceil(todos.length / 5);
-    if (currentPage > totalPages) setCurrentPage(totalPages || 1);
-  }, [todos, currentPage]);
+  useEffect(() => {
+    const totalPages = Math.ceil(todoList.length / 5);
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages || 1);
+    }
+  }, [todoList, currentPage]);
 
-  const filteredTodos = todos.filter(todo => {
-    if (currentFilter === 'completed') {
-      return todo.isDone;
+  const filteredTodoList = todoList.filter(todo => {
+    switch (currentFilter) {
+      case 'completed':
+        return todo.isDone;
+      case 'in-progress':
+        return !todo.isDone;
+      default:
+        return true;
     }
-    if (currentFilter === 'in-progress') {
-      return !todo.isDone;
-    }
-    return true;
   });
+
   const startIndex = (currentPage - 1) * 5;
-  const paginatedTodos = filteredTodos.slice(startIndex, startIndex + 5);
+  const paginatedTodoList = filteredTodoList.slice(startIndex, startIndex + 5);
 
   return (
     <main className="appWrapper">
       <div className="appContent">
         <h1 className="appTitle">todos</h1>
         <TodoForm
-          setTodos={setTodos}
-          todos={todos}
+          setTodoList={setTodoList}
+          todoList={todoList}
           addTodoValue={addTodoValue}
           setAddTodoValue={setAddTodoValue}
         />
-        {!!filteredTodos.length && (
-          <div className="todosWrapper">
-            {paginatedTodos.map(todo => (
+        {!!filteredTodoList.length && (
+          <ul className="todoListWrapper">
+            {paginatedTodoList.map(todo => (
               <TodoItem
                 key={todo.id}
                 item={todo}
-                setTodos={setTodos}
-                todos={todos}
+                setTodoList={setTodoList}
+                todoList={todoList}
               />
             ))}
-          </div>
+          </ul>
         )}
-        {filteredTodos.length > 5 && (
+        {filteredTodoList.length > 5 && (
           <Pagination
             current={currentPage}
             pageSize={5}
-            total={filteredTodos.length}
+            total={filteredTodoList.length}
             onChange={(page: number) => setCurrentPage(page)}
             className="pagination"
           />
         )}
-        {!!todos.length && (
-          <Filters
+        {!!todoList.length && (
+          <TodoFilters
+            setCurrentPage={setCurrentPage}
             setCurrentFilter={setCurrentFilter}
-            setTodos={setTodos}
+            setTodoList={setTodoList}
             currentFilter={currentFilter}
           />
         )}

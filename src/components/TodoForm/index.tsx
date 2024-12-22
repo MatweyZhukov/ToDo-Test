@@ -1,15 +1,15 @@
 import { Button, Input } from 'antd';
 import { ITodoForm } from '../../types';
-import { useTodos } from '../../hooks/useTodos';
+import { useTodoList } from '../../hooks/useTodoList';
 import styles from './TodoForm.module.scss';
-import React from 'react';
+import { FC, FormEvent } from 'react';
 
-const TodoForm: React.FC<ITodoForm> = params => {
-  const { addTodo } = useTodos(params.setTodos);
+const TodoForm: FC<ITodoForm> = params => {
+  const { addTodo } = useTodoList(params.setTodoList);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addTodo(params.addTodoValue, params.setAddTodoValue);
+    addTodo({ value: params.addTodoValue, setValue: params.setAddTodoValue });
   };
 
   return (
@@ -18,10 +18,10 @@ const TodoForm: React.FC<ITodoForm> = params => {
       onSubmit={handleSubmit}
     >
       <Input
+        className={styles.addTodoInput}
         value={params.addTodoValue}
         onChange={e => params.setAddTodoValue(e.target.value)}
         placeholder="New todo..."
-        className={styles.addTodoInput}
       />
       <Button
         htmlType="submit"

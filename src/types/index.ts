@@ -1,5 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 
+export type FiltersType = 'all' | 'completed' | 'in-progress';
+
+export interface IAddTodoParams {
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
+}
+
 export interface ITodo {
   id: string;
   value: string;
@@ -9,20 +16,19 @@ export interface ITodo {
 export interface ITodoForm {
   addTodoValue: string;
   setAddTodoValue: Dispatch<SetStateAction<string>>;
-  todos: ITodo[];
-  setTodos: Dispatch<SetStateAction<ITodo[]>>;
+  todoList: ITodo[];
+  setTodoList: Dispatch<SetStateAction<ITodo[]>>;
 }
 
 export interface ITodoItem {
   item: ITodo;
-  todos: ITodo[];
-  setTodos: ITodoForm['setTodos'];
+  todoList: ITodo[];
+  setTodoList: ITodoForm['setTodoList'];
 }
 
-export interface FiltersProps {
+export interface IFiltersProps {
   setCurrentFilter: Dispatch<SetStateAction<FiltersType>>;
-  setTodos: Dispatch<SetStateAction<ITodo[]>>;
+  setTodoList: Dispatch<SetStateAction<ITodo[]>>;
   currentFilter: FiltersType;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 }
-
-export type FiltersType = 'all' | 'completed' | 'in-progress';

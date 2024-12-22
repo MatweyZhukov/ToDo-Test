@@ -1,14 +1,14 @@
 import { ITodoItem } from '../../types';
 import { Button, Checkbox } from 'antd';
-import { useTodos } from '../../hooks/useTodos';
+import { useTodoList } from '../../hooks/useTodoList';
 import styles from './TodoItem.module.scss';
-import React from 'react';
+import { FC } from 'react';
 
-const TodoItem: React.FC<ITodoItem> = ({ item, setTodos }) => {
-  const { toggleTodoCompletion, deleteTodo } = useTodos(setTodos);
+const TodoItem: FC<ITodoItem> = ({ item, setTodoList }) => {
+  const { toggleTodoCompletion, deleteTodo } = useTodoList(setTodoList);
 
   return (
-    <div
+    <li
       className={styles.todoItem}
       key={item.id}
     >
@@ -21,7 +21,7 @@ const TodoItem: React.FC<ITodoItem> = ({ item, setTodos }) => {
         </span>
       </Checkbox>
       <Button onClick={() => deleteTodo(item.id)}>Delete</Button>
-    </div>
+    </li>
   );
 };
 
