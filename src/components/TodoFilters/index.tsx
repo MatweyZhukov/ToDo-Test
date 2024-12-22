@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import styles from './Filters.module.scss';
+import styles from './TodoFilters.module.scss';
 import { IFiltersProps, FiltersType } from '../../types';
 import { useTodoList } from '../../hooks/useTodoList';
 import { FC } from 'react';
@@ -16,12 +16,12 @@ const TodoFilters: FC<IFiltersProps> = params => {
 
   return (
     <div className={styles.filters}>
-      {filterTypes.map(filter => (
+      {filterTypes.map((filter, index) => (
         <Button
-          key={filter}
-          onClick={() => handleChangeFilter(filter)}
+          key={index}
           className={styles.filter}
-          type={filter === params.currentFilter ? 'primary' : undefined}
+          onClick={() => handleChangeFilter(filter)}
+          type={filter === params.currentFilter ? 'primary' : 'default'}
         >
           {filter}
         </Button>
