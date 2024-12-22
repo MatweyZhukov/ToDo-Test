@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import styles from './TodoFilters.module.scss';
-import { IFiltersProps, FiltersType } from '../../types';
-import { useTodoList } from '../../hooks/useTodoList';
+import { IFiltersProps, FiltersType } from '@/types';
+import { useTodoList } from '@/hooks/useTodoList';
 import { FC } from 'react';
 
 const TodoFilters: FC<IFiltersProps> = params => {

@@ -1,6 +1,6 @@
-import { ITodoItem } from '../../types';
+import { ITodoItem } from '@/types';
 import { Button, Checkbox } from 'antd';
-import { useTodoList } from '../../hooks/useTodoList';
+import { useTodoList } from '@/hooks/useTodoList';
 import styles from './TodoItem.module.scss';
 import { FC } from 'react';
 

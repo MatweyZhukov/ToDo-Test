@@ -1,6 +1,6 @@
 import { Button, Input } from 'antd';
-import { ITodoForm } from '../../types';
-import { useTodoList } from '../../hooks/useTodoList';
+import { ITodoForm } from '@/types';
+import { useTodoList } from '@/hooks/useTodoList';
 import styles from './TodoForm.module.scss';
 import { FC, FormEvent } from 'react';
 

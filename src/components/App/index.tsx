@@ -3,7 +3,7 @@ import { useState, useEffect, FC } from 'react';
 import { Pagination } from 'antd';
 import TodoItem from '../TodoItem';
 import { TodoForm } from '../TodoForm';
-import { FiltersType, ITodo } from '../../types';
+import { FiltersType, ITodo } from '@/types';
 import { TodoFilters } from '../TodoFilters';
 
 const App: FC = () => {
